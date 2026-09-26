@@ -1,0 +1,10 @@
+src/**
+node_modules/**
+**/*.map
+tsconfig.json
+*.vsix
+.vscode/**
+images/logo.png
+README.id.md
+.gitignore
+.gitattributes

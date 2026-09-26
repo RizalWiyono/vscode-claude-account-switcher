@@ -1,0 +1,116 @@
+{
+  "name": "claude-account-switcher",
+  "displayName": "Claude Account Switcher",
+  "description": "Switch between multiple Claude Code accounts from the status bar without logging in again, and watch each account's 5-hour and weekly usage.",
+  "version": "1.0.0",
+  "publisher": "rizalwiyono",
+  "author": {
+    "name": "Rizal Wiyono"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RizalWiyono/vscode-claude-account-switcher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/RizalWiyono/vscode-claude-account-switcher/issues"
+  },
+  "homepage": "https://github.com/RizalWiyono/vscode-claude-account-switcher#readme",
+  "private": true,
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1E1B3A",
+    "theme": "dark"
+  },
+  "keywords": [
+    "claude",
+    "claude code",
+    "account",
+    "switcher",
+    "multi-account",
+    "usage",
+    "rate limit",
+    "status bar"
+  ],
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "claudeSwitcher.pick",
+        "title": "Claude: Switch Account",
+        "icon": "$(account)"
+      },
+      {
+        "command": "claudeSwitcher.saveCurrent",
+        "title": "Claude: Save Current Account"
+      },
+      {
+        "command": "claudeSwitcher.setLabel",
+        "title": "Claude: Set Account Label"
+      },
+      {
+        "command": "claudeSwitcher.remove",
+        "title": "Claude: Remove Saved Account"
+      },
+      {
+        "command": "claudeSwitcher.refresh",
+        "title": "Claude: Refresh Usage"
+      }
+    ],
+    "configuration": {
+      "title": "Claude Account Switcher",
+      "properties": {
+        "claudeSwitcher.refreshIntervalMinutes": {
+          "type": "number",
+          "default": 5,
+          "minimum": 1,
+          "description": "How often to refresh usage for the active account."
+        },
+        "claudeSwitcher.afterSwitch": {
+          "type": "string",
+          "default": "ask",
+          "enum": ["ask", "resume", "newConversation", "restartExtensions", "reloadWindow", "nothing"],
+          "enumDescriptions": [
+            "Ask each time.",
+            "Restart extensions and reopen the last conversation, now using the new account.",
+            "Open a new Claude Code conversation (uses the new account right away).",
+            "Restart extensions only; editors and terminals stay open.",
+            "Reload the whole VS Code window.",
+            "Do nothing; the next new conversation uses the new account."
+          ],
+          "description": "What to do after switching account."
+        },
+        "claudeSwitcher.notifyOnReset": {
+          "type": "boolean",
+          "default": true,
+          "description": "Notify when a 5-hour or weekly limit that was above the warning threshold resets."
+        },
+        "claudeSwitcher.warningThreshold": {
+          "type": "number",
+          "default": 80,
+          "description": "Usage percent at which the status bar turns yellow (red at 95%)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -w -p .",
+    "package": "npm run compile && vsce package --no-rewrite-relative-links -o claude-account-switcher.vsix"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.0.0",
+    "typescript": "^5.4.0"
+  }
+}
